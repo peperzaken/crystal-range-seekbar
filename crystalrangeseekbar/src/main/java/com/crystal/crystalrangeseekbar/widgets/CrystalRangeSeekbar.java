@@ -257,6 +257,11 @@ public class CrystalRangeSeekbar extends View {
         return this;
     }
 
+    public CrystalRangeSeekbar setBarHeight(float barHeight){
+        this.barHeight = barHeight;
+        return this;
+    }
+
     public CrystalRangeSeekbar setBarColor(int barColor){
         this.barColor = barColor;
         return this;
@@ -487,6 +492,7 @@ public class CrystalRangeSeekbar extends View {
         return (thumbDiameter > 0) ? thumbDiameter :  getResources().getDimension(R.dimen.thumb_width);
     }
     protected float getBarHeight(){
+        if(barHeight > 0.0f) return barHeight;
         return (thumbHeight * 0.5f) * 0.3f;
     }
 

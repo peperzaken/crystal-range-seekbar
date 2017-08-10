@@ -206,6 +206,11 @@ public class CrystalSeekbar extends View {
         return this;
     }
 
+    public CrystalSeekbar setBarHeight(float barHeight){
+        this.barHeight = barHeight;
+        return this;
+    }
+
     public CrystalSeekbar setSteps(float steps){
         this.steps = steps;
         return this;
@@ -359,6 +364,7 @@ public class CrystalSeekbar extends View {
     }
 
     public float getBarHeight(){
+        if(barHeight > 0.0f) return barHeight;
         return (thumbHeight * 0.5f) * 0.3f;
     }
 
