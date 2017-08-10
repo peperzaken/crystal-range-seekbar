@@ -17,6 +17,7 @@ import android.view.View;
 
 import com.crystal.crystalrangeseekbar.interfaces.OnSeekbarChangeListener;
 import com.crystal.crystalrangeseekbar.interfaces.OnSeekbarFinalValueListener;
+import com.crystal.crystalrangeseekbar.interfaces.OnTrackingListener;
 import com.example.crystalrangeseekbar.R;
 
 
@@ -59,6 +60,7 @@ public class CrystalSeekbar extends View {
 
     private OnSeekbarChangeListener onSeekbarChangeListener;
     private OnSeekbarFinalValueListener onSeekbarFinalValueListener;
+    private OnTrackingListener onTrackingListener;
 
     private float absoluteMinValue;
     private float absoluteMaxValue;
@@ -278,6 +280,10 @@ public class CrystalSeekbar extends View {
 
     public void setOnSeekbarFinalValueListener(OnSeekbarFinalValueListener onSeekbarFinalValueListener){
         this.onSeekbarFinalValueListener = onSeekbarFinalValueListener;
+    }
+
+    public void setOnTrackingListener(OnTrackingListener onTrackingListener){
+        this.onTrackingListener = onTrackingListener;
     }
 
     public Thumb getPressedThumb(){
@@ -657,10 +663,16 @@ public class CrystalSeekbar extends View {
 
     private void onStartTrackingTouch(){
         mIsDragging = true;
+        if(onTrackingListener != null){
+            onTrackingListener.onStartTrackingTouch();
+        }
     }
 
     private void onStopTrackingTouch(){
         mIsDragging = false;
+        if(onTrackingListener != null){
+            onTrackingListener.onStopTrackingTouch();
+        }
     }
 
     private float normalizedToScreen(double normalizedCoord){
