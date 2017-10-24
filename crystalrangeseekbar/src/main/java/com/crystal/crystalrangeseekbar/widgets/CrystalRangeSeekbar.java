@@ -109,6 +109,9 @@ public class CrystalRangeSeekbar extends View {
 
     private boolean mIsDragging;
 
+    private boolean thumbHasMoved = false;
+    private float dragStartX, dragCurrentX, dragDirectionX;
+
     //////////////////////////////////////////
     // ENUMERATION
     //////////////////////////////////////////
@@ -965,10 +968,26 @@ public class CrystalRangeSeekbar extends View {
                 trackTouchEvent(event);
                 attemptClaimDrag();
 
+                dragStartX = event.getX(pointerIndex);
+                thumbHasMoved = false;
+
                 break;
 
             case MotionEvent.ACTION_MOVE:
                 if (pressedThumb != null) {
+                    boolean minThumbPressed = isInThumbRange(event.getX(pointerIndex), normalizedMinValue);
+                    boolean maxThumbPressed = isInThumbRange(event.getX(pointerIndex), normalizedMaxValue);
+                    if (minThumbPressed && maxThumbPressed && !thumbHasMoved) {
+                        dragCurrentX = event.getX(pointerIndex);
+                        dragDirectionX = dragCurrentX - dragStartX;
+                            if (dragDirectionX > 0)
+                            pressedThumb = Thumb.MAX; // when moving to right
+                            else
+                            pressedThumb = Thumb.MIN; // when moving to left
+                    }
+
+                    dragStartX = event.getX(pointerIndex);
+                    thumbHasMoved = true;
 
                     if (mIsDragging) {
                         touchMove(event.getX(pointerIndex), event.getY(pointerIndex));
