@@ -977,17 +977,25 @@ public class CrystalRangeSeekbar extends View {
                 if (pressedThumb != null) {
                     boolean minThumbPressed = isInThumbRange(event.getX(pointerIndex), normalizedMinValue);
                     boolean maxThumbPressed = isInThumbRange(event.getX(pointerIndex), normalizedMaxValue);
+
                     if (minThumbPressed && maxThumbPressed && !thumbHasMoved) {
                         dragCurrentX = event.getX(pointerIndex);
                         dragDirectionX = dragCurrentX - dragStartX;
-                            if (dragDirectionX > 0)
+
+                        if (dragDirectionX > 5) {
                             pressedThumb = Thumb.MAX; // when moving to right
-                            else
+                            thumbHasMoved = true;
+                        }
+                        else if(dragDirectionX < -5) {
                             pressedThumb = Thumb.MIN; // when moving to left
+                            thumbHasMoved = true;
+                        }
                     }
 
+                    if(minThumbPressed ^ maxThumbPressed)
+                        thumbHasMoved = true;
+
                     dragStartX = event.getX(pointerIndex);
-                    thumbHasMoved = true;
 
                     if (mIsDragging) {
                         touchMove(event.getX(pointerIndex), event.getY(pointerIndex));
